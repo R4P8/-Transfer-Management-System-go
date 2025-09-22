@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package club;
+
+option go_package = "Club/proto/club;clubpb";
+
+// =============================
+// Service Club
+// =============================
+service ClubService {
+  // CRUD Club
+  rpc CreateClub (CreateClubRequest) returns (ClubResponse);
+  rpc GetClubByID (GetClubByIDRequest) returns (ClubResponse);
+  rpc GetAllClubs (Empty) returns (ListClubResponse);
+  rpc UpdateClub (UpdateClubRequest) returns (ClubResponse);
+  rpc DeleteClub (DeleteClubRequest) returns (Empty);
+
+  // Budget khusus (tidak bisa sembarangan edit)
+  rpc AddIncome (AddIncomeRequest) returns (ClubResponse);
+  rpc Spend (SpendRequest) returns (ClubResponse);
+}
+
+// =============================
+// Messages
+// =============================
+
+message Club {
+  int64 id_club = 1;
+  string name_club = 2;
+  string city_club = 3;
+  int64 budget = 4;
+}
+
+message CreateClubRequest {
+  string name_club = 1;
+  string city_club = 2;
+  int64 budget = 3; // budget awal
+}
+
+message GetClubByIDRequest {
+  int64 id_club = 1;
+}
+
+message UpdateClubRequest {
+  int64 id_club = 1;
+  string name_club = 2;
+  string city_club = 3;
+  // budget tidak ikut di-update disini
+}
+
+message DeleteClubRequest {
+  int64 id_club = 1;
+}
+
+message AddIncomeRequest {
+  int64 id_club = 1;
+  int64 amount = 2;
+}
+
+message SpendRequest {
+  int64 id_club = 1;
+  int64 amount = 2;
+}
+
+message ClubResponse {
+  Club club = 1;
+}
+
+message ListClubResponse {
+  repeated Club clubs = 1;
+}
+
+message Empty {}
