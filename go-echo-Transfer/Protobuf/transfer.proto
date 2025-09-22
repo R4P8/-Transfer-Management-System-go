@@ -1,0 +1,73 @@
+syntax = "proto3";
+
+package transfer;
+
+option go_package = "Transfer/proto/transferpb";
+
+// Service Transfer
+service TransferService {
+  rpc CreateTransfer(CreateTransferRequest) returns (TransferResponse);
+  rpc GetTransfer(GetTransferRequest) returns (TransferResponse);
+  rpc ListTransfers(ListTransfersRequest) returns (ListTransfersResponse);
+  rpc UpdateTransfer(UpdateTransferRequest) returns (TransferResponse);
+  rpc DeleteTransfer(DeleteTransferRequest) returns (DeleteTransferResponse);
+}
+
+// -------------------
+// Messages
+// -------------------
+
+// Entity Transfer
+message Transfer {
+  int64 id_transfer = 1;
+  int64 player_id = 2;
+  int64 old_club_id = 3;
+  int64 new_club_id = 4;
+  double transfer_fee = 5;
+  string transfer_date = 6;
+  string status = 7; // misal: pending, completed, canceled
+}
+
+// Request untuk Create Transfer
+message CreateTransferRequest {
+  int64 player_id = 1;
+  int64 new_club_id = 2;
+  double transfer_fee = 3;
+  string transfer_date = 4;
+}
+
+// Request ambil Transfer by ID
+message GetTransferRequest {
+  int64 id_transfer = 1;
+}
+
+// Request ambil semua Transfer
+message ListTransfersRequest {}
+
+// Response list Transfer
+message ListTransfersResponse {
+  repeated Transfer transfers = 1;
+}
+
+// Request update Transfer
+message UpdateTransferRequest {
+  int64 id_transfer = 1;
+  int64 new_club_id = 2;
+  double transfer_fee = 3;
+  string status = 4;
+}
+
+// Request delete Transfer
+message DeleteTransferRequest {
+  int64 id_transfer = 1;
+}
+
+// Response delete Transfer
+message DeleteTransferResponse {
+  bool success = 1;
+}
+
+// Response single Transfer
+message TransferResponse {
+  Transfer transfer = 1;
+}
