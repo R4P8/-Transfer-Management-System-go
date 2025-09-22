@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package pemain;
+
+option go_package = "Pemain/proto/pemain;pemainpb";
+
+// Service pemain
+service PemainService {
+  rpc CreatePemain (CreatePemainRequest) returns (PemainResponse);
+  rpc GetPemainByID (GetPemainByIDRequest) returns (PemainResponse);
+  rpc GetAllPemain (Empty) returns (ListPemainResponse);
+  rpc UpdateByPlayer (UpdateByPlayerRequest) returns (PemainResponse);
+  rpc UpdateByClub (UpdateByClubRequest) returns (PemainResponse);
+  rpc DeletePemain (DeletePemainRequest) returns (Empty);
+
+  // 🔹 Ambil pemain berdasarkan club_id (dikirim dari service club)
+  rpc GetPemainByClub (GetPemainByClubRequest) returns (ListPemainResponse);
+}
+
+// =============================
+// Messages
+// =============================
+
+message Pemain {
+  int64 id_pemain = 1;
+  string name = 2;
+  int64 club_id = 3;
+  double market_value = 4;
+  string status_pemain = 5;
+}
+
+message CreatePemainRequest {
+  string name = 1;
+  int64 club_id = 2;
+  double market_value = 3;
+  string status_pemain = 4;
+}
+
+message GetPemainByIDRequest {
+  int64 id_pemain = 1;
+}
+
+message GetPemainByClubRequest {
+  int64 club_id = 1;
+}
+
+message UpdateByPlayerRequest {
+  int64 id_pemain = 1;
+  string status_pemain = 2;
+}
+
+message UpdateByClubRequest {
+  int64 id_pemain = 1;
+  int64 club_id = 2;
+  double market_value = 3;
+  string status_pemain = 4;
+}
+
+message DeletePemainRequest {
+  int64 id_pemain = 1;
+}
+
+message PemainResponse {
+  Pemain pemain = 1;
+}
+
+message ListPemainResponse {
+  repeated Pemain pemain = 1;
+}
+
+message Empty {}
